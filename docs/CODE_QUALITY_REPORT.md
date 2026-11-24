@@ -5,14 +5,15 @@
 
 ## 1. Modular Architecture & Line Limits
 - **Module Line Limit ($\le$ 200 lines)**: 100% verified across all TypeScript and TSX files.
-  - `server.ts`: 95 lines (routes and middleware separated into `server/`)
+  - `server.ts`: 105 lines (routes and middleware separated into `server/`)
   - `src/lib/aqiCompute.ts`: 7 lines (facade delegating to `src/lib/compute/`)
   - `src/lib/constants.ts`: 7 lines (facade delegating to `src/lib/constants/`)
-  - `src/components/Dashboard/AirTelemetryDashboard.tsx`: 193 lines (isolated heatmap into `SmogHeatmap.tsx`)
-  - `src/components/Routine/DailyRoutineOptimizer.tsx`: 189 lines (isolated timeline into `RoutineTimeline.tsx`)
+  - `src/components/Dashboard/AirTelemetryDashboard.tsx`: 59 lines (modularized via `TelemetryHeroCard.tsx` & `PollutantSparklinesPanel.tsx`)
+  - `src/components/Dashboard/SmogHeatmap.tsx`: 134 lines
+  - `src/components/Routine/DailyRoutineOptimizer.tsx`: 143 lines (modularized via `RoutineTimeline.tsx` & `RoutineMetrics.tsx`)
   - `src/components/IAQ/IAQCenter.tsx`: 178 lines (isolated schedule into `WindowSchedule.tsx` & `DIYHackGrid.tsx`)
-  - `src/components/Community/CommunityHub.tsx`: 171 lines (isolated pledge cards into `PledgeCard.tsx`)
-  - `src/components/Transit/TransitPlanner.tsx`: 146 lines (isolated table into `TransitComparisonTable.tsx`)
+  - `src/components/Community/CommunityHub.tsx`: 168 lines (modularized via `PledgeCard.tsx` & `CollectiveImpactBanner.tsx`)
+  - `src/components/Transit/TransitPlanner.tsx`: 137 lines (isolated table into `TransitComparisonTable.tsx`)
   - `src/context/AppContext.tsx`: 165 lines (types isolated into `src/context/types.ts`)
 - **Function Line Limit ($\le$ 25 lines)**: All functions, component sub-blocks, and calculation engines decompose into concise units.
 
@@ -29,6 +30,7 @@
 
 ## 4. Frontend & Security Hygiene
 - **DOM Safety**: Zero direct `dangerouslySetInnerHTML` with dynamic user data.
+- **Security Vulnerabilities**: `npm audit` reports 0 vulnerabilities.
 - **Security Headers**: Helmet Content-Security-Policy, `X-Content-Type-Options: nosniff`, and origin validation.
 - **Rate Limiting**: 30 requests/minute/IP window on GenAI endpoints.
 - **CWE-209 Defense**: Server-side error handler prevents stack trace leakage.

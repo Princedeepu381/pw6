@@ -51,60 +51,32 @@ export const SmogHeatmap = memo(function SmogHeatmap({
 
       {/* Native SVG Heatmap Canvas */}
       <div className="w-full bg-[#080d19] rounded-2xl border border-slate-800/90 p-3 overflow-hidden relative shadow-inner">
-        <svg
-          viewBox="0 0 600 320"
-          aria-hidden="true"
-          role="presentation"
-          className="w-full h-auto max-h-[340px]"
-        >
+        <svg viewBox="0 0 600 320" aria-hidden="true" role="presentation" className="w-full h-auto max-h-[340px]">
           <defs>
             <linearGradient id="smogGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#0c1324" stopOpacity="0.8" />
               <stop offset="100%" stopColor="#080d19" stopOpacity="0.95" />
             </linearGradient>
-            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="6" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
           </defs>
 
-          {/* Background Canvas */}
           <rect x="0" y="0" width="600" height="320" fill="url(#smogGrad)" rx="12" />
 
-          {/* Minimalist Grid Coordinates */}
+          {/* Grid lines */}
           {[60, 120, 180, 240].map((y) => (
-            <line
-              key={`grid-h-${y}`}
-              x1="20"
-              y1={y}
-              x2="580"
-              y2={y}
-              stroke="#1e293b"
-              strokeWidth="0.75"
-              strokeDasharray="2 4"
-            />
+            <line key={`gh-${y}`} x1="20" y1={y} x2="580" y2={y} stroke="#1e293b" strokeWidth="0.75" strokeDasharray="2 4" />
           ))}
           {[120, 240, 360, 480].map((x) => (
-            <line
-              key={`grid-v-${x}`}
-              x1={x}
-              y1="20"
-              x2={x}
-              y2="300"
-              stroke="#1e293b"
-              strokeWidth="0.75"
-              strokeDasharray="2 4"
-            />
+            <line key={`gv-${x}`} x1={x} y1="20" x2={x} y2="300" stroke="#1e293b" strokeWidth="0.75" strokeDasharray="2 4" />
           ))}
 
-          {/* Wind Dispersion Vectors */}
+          {/* Wind vectors */}
           <g stroke="#334155" strokeWidth="1" opacity="0.6">
             <path d="M 50 40 Q 150 20 250 50 T 450 40" fill="none" strokeDasharray="4 4" />
             <path d="M 100 160 Q 250 140 380 170 T 550 150" fill="none" strokeDasharray="4 4" />
             <path d="M 80 270 Q 220 250 360 280 T 520 260" fill="none" strokeDasharray="4 4" />
           </g>
 
-          {/* Zone Connection Corridors */}
+          {/* Connection corridors */}
           <g stroke="#1e293b" strokeWidth="1.5" strokeDasharray="3 3">
             <line x1="300" y1="160" x2="160" y2="75" />
             <line x1="300" y1="160" x2="450" y2="90" />
@@ -112,77 +84,25 @@ export const SmogHeatmap = memo(function SmogHeatmap({
             <line x1="300" y1="160" x2="170" y2="230" />
           </g>
 
-          {/* Zone Telemetry Nodes */}
+          {/* Telemetry nodes */}
           {zones.map((zone, idx) => {
             const pos = NODE_COORDINATES[idx] || { cx: 200 + idx * 60, cy: 150 };
             const color = getAQIColor(zone.aqi);
             const isSelected = zone.zoneId === selectedZoneId;
 
             return (
-              <g
-                key={zone.zoneId}
-                className="cursor-pointer transition-transform duration-200"
-                onClick={() => onSelectZone(zone.zoneId)}
-              >
-                {/* Active Hazard Pulse */}
+              <g key={zone.zoneId} className="cursor-pointer" onClick={() => onSelectZone(zone.zoneId)}>
                 {zone.aqi > 200 && (
-                  <circle
-                    cx={pos.cx}
-                    cy={pos.cy}
-                    r="34"
-                    fill="none"
-                    stroke={color}
-                    strokeWidth="1.5"
-                    opacity="0.3"
-                    className="animate-ping"
-                  />
+                  <circle cx={pos.cx} cy={pos.cy} r="34" fill="none" stroke={color} strokeWidth="1.5" opacity="0.3" className="animate-ping" />
                 )}
-
-                {/* Selection Halo */}
                 {isSelected && (
-                  <circle
-                    cx={pos.cx}
-                    cy={pos.cy}
-                    r="30"
-                    fill="none"
-                    stroke="#10b981"
-                    strokeWidth="2"
-                    strokeDasharray="4 3"
-                  />
+                  <circle cx={pos.cx} cy={pos.cy} r="30" fill="none" stroke="#10b981" strokeWidth="2" strokeDasharray="4 3" />
                 )}
-
-                {/* Node Body */}
-                <circle
-                  cx={pos.cx}
-                  cy={pos.cy}
-                  r="22"
-                  fill="#0c1324"
-                  stroke={color}
-                  strokeWidth="2.5"
-                />
-
-                {/* AQI Numeric Label */}
-                <text
-                  x={pos.cx}
-                  y={pos.cy + 4}
-                  textAnchor="middle"
-                  fill="#ffffff"
-                  fontSize="12"
-                  fontWeight="bold"
-                  fontFamily="monospace"
-                >
+                <circle cx={pos.cx} cy={pos.cy} r="22" fill="#0c1324" stroke={color} strokeWidth="2.5" />
+                <text x={pos.cx} y={pos.cy + 4} textAnchor="middle" fill="#ffffff" fontSize="12" fontWeight="bold" fontFamily="monospace">
                   {zone.aqi}
                 </text>
-
-                {/* Sector Name Below Node */}
-                <text
-                  x={pos.cx}
-                  y={pos.cy + 36}
-                  textAnchor="middle"
-                  fill="#94a3b8"
-                  fontSize="11"
-                  fontWeight="600"
-                >
+                <text x={pos.cx} y={pos.cy + 36} textAnchor="middle" fill="#94a3b8" fontSize="11" fontWeight="600">
                   {zone.zoneName.split(' ')[0]}
                 </text>
               </g>

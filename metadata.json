@@ -16,14 +16,16 @@
   "testExecutionSummary": {
     "testRunner": "vitest",
     "testEnvironment": "jsdom",
-    "totalTestSuites": 5,
-    "totalTests": 74,
-    "passedTests": 74,
+    "totalTestSuites": 7,
+    "totalTests": 78,
+    "passedTests": 78,
     "failedTests": 0,
     "passRatePercent": 100,
     "suites": [
-      { "name": "aqi.test.ts", "purpose": "Pure Mathematical Unit & EPA Breakpoint Tests", "tests": 42, "status": "passed" },
-      { "name": "routing.test.ts", "purpose": "Dijkstra Lowest-Exposure Path & Hook State", "tests": 7, "status": "passed" },
+      { "name": "aqiBreakpoints.test.ts", "purpose": "EPA AQI Breakpoints & Piecewise Linear Interpolation", "tests": 18, "status": "passed" },
+      { "name": "aqiCommute.test.ts", "purpose": "Multi-Modal Inhaled PM2.5 Dose & Emission Modeling", "tests": 17, "status": "passed" },
+      { "name": "aqiIaq.test.ts", "purpose": "Single-Compartment CADR Mass Balance & 4 ACH Decay", "tests": 11, "status": "passed" },
+      { "name": "routing.test.ts", "purpose": "Dijkstra Lowest-Exposure Path & Clean Corridor State", "tests": 7, "status": "passed" },
       { "name": "api.test.ts", "purpose": "Live Backend HTTP, Type Guards & Security Headers", "tests": 10, "status": "passed" },
       { "name": "rendering.test.tsx", "purpose": "Component Landmarks & Screen Reader Twin Representations", "tests": 8, "status": "passed" },
       { "name": "dom.test.tsx", "purpose": "DOM Interactions, Pledges, Simulations & Selectors", "tests": 7, "status": "passed" }
@@ -49,8 +51,8 @@
     "typescript": "5.7.3",
     "tailwindcss": "4.0.9",
     "vite": "6.2.0",
-    "vitest": "3.0.6",
+    "vitest": "4.1.12",
     "oxlint": "1.94.0",
-    "geminiModel": "gemini-3.1-flash-lite"
+    "geminiModel": "gemini-2.5-flash"
   }
 }
